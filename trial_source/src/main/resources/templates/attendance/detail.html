@@ -55,8 +55,7 @@
 						<th class="w200">備考</th>
 					</tr>
 				</thead>
-
-				<tbody class="db" style="display: block; overflow-y: scroll; height: 360px">
+				<tbody class="db">
 					<th:block th:each="attendanceManagementDto : ${attendanceManagementDtoList}" th:object="${attendanceManagementDto}">
 						<tr>
 							<td class="w160">[[*{#dates.format(trainingDate, 'yyyy年M月d日(E)')}]]</td>
