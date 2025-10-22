@@ -68,6 +68,19 @@ public class StudentAttendanceService {
 			if (statusEnum != null) {
 				dto.setStatusDispName(statusEnum.name);
 			}
+			// Task.25 過去日勤怠未入力判定
+			int blankPastDateCount;
+			boolean blankPast;
+			if(dto.getTrainingStartTime == null) {
+				blankPastDateCount++;
+			}
+			if(dto.getTrainingEndTime == null) {
+				blankPastDateCount++;
+			}
+			if (blankPastDateCount>0) {
+				blankPast = TRUE;
+			}
+			
 		}
 
 		return attendanceManagementDtoList;
