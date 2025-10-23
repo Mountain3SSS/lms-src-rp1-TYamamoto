@@ -49,6 +49,18 @@ public interface TStudentAttendanceMapper {
 	List<AttendanceManagementDto> getAttendanceManagement(@Param("courseId") Integer courseId,
 			@Param("lmsUserId") Integer lmsUserId, @Param("deleteFlg") Short deleteFlg);
 
+
+	/**
+	 * Task.25
+	 * 過去勤怠未入力チェック
+	 * @param lmsUserId
+	 * @return 勤怠未入力項目数
+	 */
+	int AttendanceNullCheck(
+			@Param("courseId") Integer courseId, 
+			@Param("lmsUserId") Integer lmsUserId, 
+			@Param("deleteFlg") Short deleteFlg);
+		
 	/**
 	 * 勤怠情報（受講生入力）登録
 	 * 
@@ -65,4 +77,15 @@ public interface TStudentAttendanceMapper {
 	 */
 	Boolean update(TStudentAttendance tStudentAttendance);
 
+	/**
+	 * 
+	 * @param courseId
+	 * @param deleteFlg
+	 * @return 勤怠未入力数
+	 */
+	int notEnterCount(
+		@Param("courseId") Integer courseId, 
+		@Param("deleteFlg") Short deleteFlg,
+		@Param("trainingDate") Integer trainingDate);
+	
 }

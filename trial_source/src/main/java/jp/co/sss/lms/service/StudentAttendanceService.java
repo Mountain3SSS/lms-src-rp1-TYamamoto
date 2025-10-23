@@ -1,6 +1,7 @@
 package jp.co.sss.lms.service;
 
 import java.text.ParseException;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -57,6 +58,7 @@ public class StudentAttendanceService {
 		// 勤怠管理リストの取得
 		List<AttendanceManagementDto> attendanceManagementDtoList = tStudentAttendanceMapper
 				.getAttendanceManagement(courseId, lmsUserId, Constants.DB_FLG_FALSE);
+
 		for (AttendanceManagementDto dto : attendanceManagementDtoList) {
 			// 中抜け時間を設定
 			if (dto.getBlankTime() != null) {
@@ -68,19 +70,6 @@ public class StudentAttendanceService {
 			if (statusEnum != null) {
 				dto.setStatusDispName(statusEnum.name);
 			}
-			// Task.25 過去日勤怠未入力判定
-			int blankPastDateCount;
-			boolean blankPast;
-			if(dto.getTrainingStartTime == null) {
-				blankPastDateCount++;
-			}
-			if(dto.getTrainingEndTime == null) {
-				blankPastDateCount++;
-			}
-			if (blankPastDateCount>0) {
-				blankPast = TRUE;
-			}
-			
 		}
 
 		return attendanceManagementDtoList;
@@ -347,4 +336,38 @@ public class StudentAttendanceService {
 		return messageUtil.getMessage(Constants.PROP_KEY_ATTENDANCE_UPDATE_NOTICE);
 	}
 
+
+	/**
+	 * 出退勤未登録チェック(自作版)
+	 * 
+	 * @param lmsUserId
+	 * @return 出退勤未登録の有無
+	 * Task.25 対応
+
+	public boolean AttendanceNullCheck(Integer courseId,Integer lmsUserId) {
+		boolean AttendanceNullCheck = false;
+		int AttendanceNullNum = tStudentAttendanceMapper.AttendanceNullCheck(courseId,lmsUserId,Constants.DB_FLG_FALSE);
+
+		if (AttendanceNullNum > 0) {
+			AttendanceNullCheck = true;
+		}
+
+		return AttendanceNullCheck;
+	}
+	 */
+
+	/**
+	 * Task.25 出退勤未登録チェック
+	 * @param lmsUserId
+	 * @return 勤怠未入力数
+	 */
+	public integer notEnterCount(Integer lmsUserId, Constants.DB_FLG_FALSE,) {
+		boolean AttendanceNullCheck = false;
+			
+		if (notEnterCount > 0) {
+			return true;
+
+	}
+
+	
 }

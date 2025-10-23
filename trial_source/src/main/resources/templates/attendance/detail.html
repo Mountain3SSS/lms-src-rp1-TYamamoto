@@ -7,9 +7,8 @@
 </head>
 <body>
 	
-	<!-- <script th:if="${alertMessage != null}" th:inline="javascript"> -->
-	<script th:inline="javascript">
-    	alert("過去日の勤怠に未入力があります。");
+	<script th:if="${AttendanceEmptyAlert != null}" th:inline="javascript">
+	     alert(/*[[${AttendanceEmptyAlert}]]*/);
 	</script>
 	
 	
