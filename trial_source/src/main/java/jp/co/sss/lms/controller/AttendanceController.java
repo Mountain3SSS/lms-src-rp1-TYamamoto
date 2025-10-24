@@ -1,7 +1,6 @@
 package jp.co.sss.lms.controller;
 
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,24 +47,13 @@ public class AttendanceController {
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
 
-		//Task.25 勤怠未入力チェック(自作版)
-		//boolean AttendanceNullCheck = studentAttendanceService.AttendanceNullCheck(loginUserDto.getCourseId(), loginUserDto.getLmsUserId()); 
-		//if(AttendanceNullCheck == true) {
-		//	model.addAttribute("AttendanceEmptyAlert", "過去日の勤怠に未入力があります。");
-		//	
-		//}
-
-		//Task.25 勤怠未入力チェック
-		simpleDateFormat formatPattern = dateUtil.dateToString(LocalDate.now(), "yyyy-MM-dd"); 
-		
-		int notEnterCount = studentAttendanceService.notEnterCount(
-				loginUserDto.getLmsUserId(), Constants.DB_FLG_FALSE, dateUtil.dateToString(Date(), "yyyy-MM-dd")
-			);
-		if(notEnterCount > 0) {
+		// Task.25 過去研修日勤怠に未入力があればダイアログを返す(山本岳史)
+		boolean notEnterCount = studentAttendanceService.notEnterCount(loginUserDto.getLmsUserId());
+		if (notEnterCount == true) {
 			model.addAttribute("AttendanceEmptyAlert", "過去日の勤怠に未入力があります。");
 		}
-	return "attendance/detail";
 
+		return "attendance/detail";
 	}
 
 	/**

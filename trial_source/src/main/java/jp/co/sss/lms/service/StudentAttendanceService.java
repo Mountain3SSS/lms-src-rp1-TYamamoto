@@ -1,7 +1,6 @@
 package jp.co.sss.lms.service;
 
 import java.text.ParseException;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -336,38 +335,25 @@ public class StudentAttendanceService {
 		return messageUtil.getMessage(Constants.PROP_KEY_ATTENDANCE_UPDATE_NOTICE);
 	}
 
-
 	/**
-	 * 出退勤未登録チェック(自作版)
-	 * 
+	 * 過去研修日勤怠未入力チェック
+	 * @author 山本岳史 - Task.25
 	 * @param lmsUserId
-	 * @return 出退勤未登録の有無
-	 * Task.25 対応
+	 * @return 勤怠未入力の有無
+	 */
+	public boolean notEnterCount(Integer lmsUserId) {
+		//本日日付をSimpleDateFormat(dateUtil.toString)で"yyyy/m/d"に整形し取得
+		String today = dateUtil.toString(attendanceUtil.getTrainingDate());
+		
+		//勤怠情報（受講生入力）API．勤怠情報（受講生入力）未入力件数取得 で過去日の未入力数をカウント
+		int AttendanceNullNum = tStudentAttendanceMapper.notEnterCount(lmsUserId, Constants.DB_FLG_FALSE, today);
 
-	public boolean AttendanceNullCheck(Integer courseId,Integer lmsUserId) {
-		boolean AttendanceNullCheck = false;
-		int AttendanceNullNum = tStudentAttendanceMapper.AttendanceNullCheck(courseId,lmsUserId,Constants.DB_FLG_FALSE);
-
+		//取得した未入力カウント数が0より大きい場合、trueを返す
 		if (AttendanceNullNum > 0) {
-			AttendanceNullCheck = true;
-		}
-
-		return AttendanceNullCheck;
-	}
-	 */
-
-	/**
-	 * Task.25 出退勤未登録チェック
-	 * @param lmsUserId
-	 * @return 勤怠未入力数
-	 */
-	public integer notEnterCount(Integer lmsUserId, Constants.DB_FLG_FALSE,) {
-		boolean AttendanceNullCheck = false;
-			
-		if (notEnterCount > 0) {
 			return true;
-
-	}
-
+		} else {
+			return false;
+		}
 	
+	}
 }
