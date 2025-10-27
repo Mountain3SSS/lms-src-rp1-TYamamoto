@@ -48,8 +48,8 @@ public class AttendanceController {
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
 
 		// Task.25 過去研修日勤怠に未入力があればダイアログを返す(山本)
-		boolean noPastDate = studentAttendanceService.notEnterCount(loginUserDto.getLmsUserId());
-		if (noPastDate == true) {
+		boolean EmptyPastDateExists = studentAttendanceService.notEnterCount(loginUserDto.getLmsUserId());
+		if (EmptyPastDateExists == true) {
 			model.addAttribute("AttendanceEmptyAlert", "過去日の勤怠に未入力があります。");
 		}
 

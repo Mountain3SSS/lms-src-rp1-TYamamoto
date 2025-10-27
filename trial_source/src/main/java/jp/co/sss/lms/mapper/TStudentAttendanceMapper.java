@@ -77,7 +77,7 @@ public interface TStudentAttendanceMapper {
 	Boolean update(TStudentAttendance tStudentAttendance);
 
 	/**
-	 * 
+	 * 過去研修日勤怠未入力チェック
 	 * @param lmsUserId
 	 * @param deleteFlg
 	 * @return 勤怠未入力数
