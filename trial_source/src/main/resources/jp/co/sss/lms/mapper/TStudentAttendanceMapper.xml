@@ -39,30 +39,6 @@
 		ORDER BY t2.date ASC
 	</select>
 
-	<!-- Task.25 先日以前の勤怠チェック(自作参照用)
-		<select id="AttendanceNullCheck">
-			SELECT
-			    COUNT(1)
-			FROM 
-				m_course t1
-				INNER JOIN m_section t2 
-					ON t1.course_id = t2.course_id
-				LEFT OUTER JOIN t_student_attendance t3 
-					ON t3.lms_user_id = #{lmsUserId} 
-					AND cast(t2.date AS DATE) = cast(t3.training_date AS DATE)
-			WHERE 
-					t1.course_id = #{courseId} 
-				AND t1.delete_flg = #{deleteFlg}
-			    AND t2.date &lt; CURRENT_DATE
-			    AND (
-			    		t3.training_start_time IS NULL 
-			    	OR  t3.training_end_time IS NULL
-			    	OR  t3.training_start_time=''
-			    	OR  t3.training_end_time=''
-			    );	
-	</select>
-	-->
-
 	<insert id="insert" parameterType="jp.co.sss.lms.entity.TStudentAttendance" useGeneratedKeys="true" keyProperty="studentAttendanceId">
 		INSERT INTO t_student_attendance 
 		(
@@ -113,22 +89,17 @@
 		SELECT 
 			count(*) 
 		FROM 
-			m_course t1
-			INNER JOIN m_section t2 
-				ON t1.course_id = t2.course_id
-			LEFT OUTER JOIN t_student_attendance t3 
-				ON t3.lms_user_id = #{lmsUserId} 
-				AND cast(t2.date AS DATE) = cast(t3.training_date AS DATE)
+			t_student_attendance 
 		WHERE
-				lms_user_id= #{lmsUserId}
-			AND t3.delete_flg = #{deleteFlg}
-			AND t3.status &lt;&gt; 1
-			AND t3.training_date &lt; to_date(#{trainingDate}, 'YYYY/MM/DD')
+			lms_user_id= #{lmsUserId}
+			AND delete_flg = #{deleteFlg}
+			AND training_date &lt; to_date(#{trainingDate}, 'YYYY/MM/DD')
+			AND status &lt;&gt; 1
 			AND (
-					t3.training_start_time=''
-				or  t3.training_end_time=''
-				or  t3.training_start_time IS NULL
-				or  t3.training_end_time IS NULL
+				training_start_time=''
+				OR  training_end_time=''
+				OR  training_start_time IS NULL
+				OR  training_end_time IS NULL
 			);
 	</select>
 

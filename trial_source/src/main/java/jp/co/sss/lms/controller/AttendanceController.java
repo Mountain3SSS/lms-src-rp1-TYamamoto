@@ -47,9 +47,9 @@ public class AttendanceController {
 				.getAttendanceManagement(loginUserDto.getCourseId(), loginUserDto.getLmsUserId());
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
 
-		// Task.25 過去研修日勤怠に未入力があればダイアログを返す(山本岳史)
-		boolean notEnterCount = studentAttendanceService.notEnterCount(loginUserDto.getLmsUserId());
-		if (notEnterCount == true) {
+		// Task.25 過去研修日勤怠に未入力があればダイアログを返す(山本)
+		boolean noPastDate = studentAttendanceService.notEnterCount(loginUserDto.getLmsUserId());
+		if (noPastDate == true) {
 			model.addAttribute("AttendanceEmptyAlert", "過去日の勤怠に未入力があります。");
 		}
 

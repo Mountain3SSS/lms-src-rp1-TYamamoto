@@ -342,18 +342,13 @@ public class StudentAttendanceService {
 	 * @return 勤怠未入力の有無
 	 */
 	public boolean notEnterCount(Integer lmsUserId) {
-		//本日日付をSimpleDateFormat(dateUtil.toString)で"yyyy/m/d"に整形し取得
-		String today = dateUtil.toString(attendanceUtil.getTrainingDate());
+		//本日日付をSimpleDateFormatで"yyyy/m/d"に整形し取得
+		Date today = attendanceUtil.getTrainingDate();
 		
 		//勤怠情報（受講生入力）API．勤怠情報（受講生入力）未入力件数取得 で過去日の未入力数をカウント
 		int AttendanceNullNum = tStudentAttendanceMapper.notEnterCount(lmsUserId, Constants.DB_FLG_FALSE, today);
-
+				
 		//取得した未入力カウント数が0より大きい場合、trueを返す
-		if (AttendanceNullNum > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	
+		return AttendanceNullNum > 0;
 	}
 }
